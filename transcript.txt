@@ -1,0 +1,35 @@
+Hello, my name is Saurav, and I’ll walk you through my approach to solving the web server log analysis assignment.
+
+The dataset used in this project is the Calgary HTTP dataset, which contains approximately one year of HTTP request logs from a university web server. Since this is real-world log data, it includes inconsistencies, missing values, and irregular formats, so the first major step was to properly load and clean the data before performing any analysis.
+
+To begin with, I downloaded the dataset from the FTP server in compressed .gz format. Instead of manually extracting it, I handled the compression directly in Python to make the process efficient and reproducible. I then loaded the raw log data into a pandas DataFrame, initially storing each log entry as a single string column.
+
+The next step was parsing the raw log entries. Since the dataset follows the Apache Common Log Format, I used regular expressions to extract structured fields such as host, timestamp, request, status code, and response size. This step was critical because the raw logs are not in a tabular format, so proper parsing ensures that each component is correctly separated for analysis.
+
+After extracting the fields, I converted the timestamp into a datetime format. This was important because it allowed me to perform time-based analysis such as grouping data by date and hour. I also cleaned the timestamp by removing timezone information to ensure consistent formatting.
+
+While parsing, I observed that some rows were malformed or incomplete. Instead of removing them directly, I flagged these rows using a validity indicator. This approach ensures that the original dataset remains intact while allowing me to work only with reliable data during analysis.
+
+Another important issue was handling missing values in the size column. In the dataset, missing sizes are represented by a dash '-'. I converted this column into numeric format and replaced missing values with zero, assuming that these correspond to responses where no data was transferred, such as error responses.
+
+I also split the request field into three components: method, filename, and protocol. This allowed me to analyze request types and resource access patterns more effectively. Additionally, I extracted file extensions from the filename column. For entries where no extension was present, I labeled them as 'no_extension' to maintain consistency.
+
+After completing the cleaning process, I created a separate cleaned dataset containing only valid entries. This dataset was then used for all analytical tasks.
+
+Moving on to the analysis part, I first calculated the total number of log records, which represents the total number of valid HTTP requests. Then, I computed the number of unique hosts to understand how many distinct users accessed the server.
+
+Next, I analyzed the number of unique filenames requested per day. This provides insight into how diverse the daily traffic was in terms of resources accessed.
+
+I also calculated the total number of 404 errors, which indicates how often users attempted to access missing or unavailable resources. To go deeper, I identified the top 15 filenames and file extensions that resulted in 404 errors. This helps in identifying broken links or missing files that may need attention.
+
+For bandwidth analysis, I focused on July 1995 and calculated the total data transferred per day. This gives a clear view of server load and usage patterns over time.
+
+I also analyzed the hourly distribution of requests to understand peak traffic hours. This kind of analysis is useful for capacity planning and performance optimization.
+
+Additionally, I identified the top 10 most requested filenames, which highlights the most popular resources on the server.
+
+Finally, I computed the distribution of HTTP response codes to evaluate overall server performance, including successful responses and different types of errors.
+
+Overall, this project demonstrates my ability to work with raw log data, perform structured data cleaning, handle edge cases, and extract meaningful insights using Python and pandas.
+
+Thank you for watching.
